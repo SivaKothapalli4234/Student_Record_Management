@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build --configuration production",
-    "build:prod": "ng build --configuration production"
+    "build": "npx ng build --configuration production",
+    "build:prod": "npx ng build --configuration production"
   },
   "dependencies": {
     "@angular/animations": "^16.0.0",
