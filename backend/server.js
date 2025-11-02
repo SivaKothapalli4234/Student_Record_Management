@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware - allows JSON data and cross-origin requests
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:4200', 'https://your-netlify-app.netlify.app'],
+  origin: ['http://localhost:4200', 'http://localhost:4201', 'https://your-netlify-app.netlify.app'],
   credentials: true
 }));
 
@@ -53,6 +53,11 @@ const studentSchema = new mongoose.Schema({
 const Student = mongoose.model('Student', studentSchema);
 
 // ROUTES - API endpoints for CRUD operations
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'Student Management API is running!', endpoints: ['/students'] });
+});
 
 // GET /students - Get all students with optional search
 app.get('/students', async (req, res) => {
