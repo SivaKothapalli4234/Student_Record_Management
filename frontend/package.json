@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ng serve",
     "build": "./node_modules/.bin/ng build --configuration production",
-    "build:prod": "./node_modules/.bin/ng build --configuration production"
+    "build:simple": "./node_modules/.bin/ng build"
   },
   "dependencies": {
     "@angular/animations": "^16.0.0",
