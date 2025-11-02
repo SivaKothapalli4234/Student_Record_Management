@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware - allows JSON data and cross-origin requests
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:4200', 'http://localhost:4201', 'https://your-netlify-app.netlify.app', '*'],
+  origin: true,
   credentials: true
 }));
 
