@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-render-app.onrender.com'
+  apiUrl: 'https://student-record-management-3881.onrender.com'
 };
