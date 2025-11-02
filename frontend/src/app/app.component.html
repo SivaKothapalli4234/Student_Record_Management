@@ -1,0 +1,190 @@
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-graduation-cap me-2"></i>
+      Student Management System
+    </a>
+    <span class="navbar-text">
+      <i class="fas fa-users me-1"></i>
+      {{ students.length }} Students
+    </span>
+  </div>
+</nav>
+
+<!-- Main container -->
+<div class="container mt-4">
+  
+  <!-- Form to add/edit students -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">
+        <i class="fas fa-{{ isEditing ? 'edit' : 'plus' }} me-2"></i>
+        {{ isEditing ? 'Edit Student' : 'Add New Student' }}
+      </h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #studentFormRef="ngForm" class="row g-3">
+      
+        <div class="col-md-6">
+          <label for="name" class="form-label">Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name"
+            [(ngModel)]="studentForm.name" 
+            required
+            class="form-control"
+            placeholder="Enter student name">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="age" class="form-label">Age</label>
+          <input 
+            type="number" 
+            id="age" 
+            name="age"
+            [(ngModel)]="studentForm.age" 
+            required
+            class="form-control"
+            placeholder="Enter age">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            [(ngModel)]="studentForm.email" 
+            required
+            class="form-control"
+            placeholder="Enter email address">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="regdNo" class="form-label">Registration No</label>
+          <input 
+            type="text" 
+            id="regdNo" 
+            name="regdNo"
+            [(ngModel)]="studentForm.regdNo" 
+            required
+            class="form-control"
+            placeholder="Enter registration number">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="courseName" class="form-label">Course Name</label>
+          <input 
+            type="text" 
+            id="courseName" 
+            name="courseName"
+            [(ngModel)]="studentForm.courseName" 
+            required
+            class="form-control"
+            placeholder="Enter course name">
+        </div>
+        
+        <div class="col-md-6">
+          <label for="qualification" class="form-label">Qualification</label>
+          <input 
+            type="text" 
+            id="qualification" 
+            name="qualification"
+            [(ngModel)]="studentForm.qualification" 
+            required
+            class="form-control"
+            placeholder="Enter qualification">
+        </div>
+      
+        <div class="col-12">
+          <button type="submit" [disabled]="!studentFormRef.form.valid" class="btn btn-success me-2">
+            <i class="fas fa-{{ isEditing ? 'save' : 'plus' }} me-1"></i>
+            {{ isEditing ? 'Update Student' : 'Add Student' }}
+          </button>
+          <button type="button" (click)="resetForm()" class="btn btn-outline-secondary" *ngIf="isEditing">
+            <i class="fas fa-times me-1"></i>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Search section -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0">
+        <i class="fas fa-search me-2"></i>
+        Search Students
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fas fa-search"></i>
+        </span>
+        <input 
+          type="text" 
+          placeholder="Search by name, registration no, course, or qualification..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          class="form-control">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Students List -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">
+        <i class="fas fa-list me-2"></i>
+        Students List
+      </h5>
+    </div>
+    <div class="card-body">
+      <!-- Show message if no students -->
+      <div *ngIf="students.length === 0" class="text-center py-5">
+        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No students found</h5>
+        <p class="text-muted">Add some students to get started!</p>
+      </div>
+      
+      <!-- Students table -->
+      <div *ngIf="students.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th><i class="fas fa-user me-1"></i>Name</th>
+              <th><i class="fas fa-birthday-cake me-1"></i>Age</th>
+              <th><i class="fas fa-envelope me-1"></i>Email</th>
+              <th><i class="fas fa-id-card me-1"></i>Reg No</th>
+              <th><i class="fas fa-book me-1"></i>Course</th>
+              <th><i class="fas fa-graduation-cap me-1"></i>Qualification</th>
+              <th><i class="fas fa-cogs me-1"></i>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td class="fw-bold">{{ student.name }}</td>
+              <td>{{ student.age }}</td>
+              <td>{{ student.email }}</td>
+              <td><span class="badge bg-secondary">{{ student.regdNo }}</span></td>
+              <td>{{ student.courseName }}</td>
+              <td>{{ student.qualification }}</td>
+              <td>
+                <button (click)="editStudent(student)" class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button (click)="deleteStudent(student._id!)" class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
